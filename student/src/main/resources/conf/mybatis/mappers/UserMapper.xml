@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bs.student.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.bs.student.bean.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="studentid" jdbcType="VARCHAR" property="studentid" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, name, phone, password, realname, school, major, studentid, create_time, 
+    update_time
+  </sql>
+  <select id="select" parameterType="String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId}
+  </select>
+  <select id="selectList" parameterType="Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    <where>
+    	<if test="userId != null">
+    		and userId = #{userId}
+    	</if>
+    	<if test="name != null">
+    		and name = #{name}
+    	</if>
+    	<if test="phone != null">
+    		and phone = #{phone}
+    	</if>
+    	<if test="realname != null">
+    		and realname = #{realname}
+    	</if>
+    	<if test="school != null">
+    		and school = #{school}
+    	</if>
+    	<if test="major != null">
+    		and major = #{major}
+    	</if>
+    	<if test="studentid != null">
+    		and studentid = #{studentid}
+    	</if>
+    </where>
+    ORDER BY create_time DESC
+  	LIMIT #{offset},#{limit}
+  </select>
+  <select id="selectCount" parameterType="Map" resultType="int">
+    select count(*)
+    from user
+    <where>
+    	<if test="userId != null">
+    		and userId = #{userId}
+    	</if>
+    	<if test="name != null">
+    		and name = #{name}
+    	</if>
+    	<if test="phone != null">
+    		and phone = #{phone}
+    	</if>
+    	<if test="realname != null">
+    		and realname = #{realname}
+    	</if>
+    	<if test="school != null">
+    		and school = #{school}
+    	</if>
+    	<if test="major != null">
+    		and major = #{major}
+    	</if>
+    	<if test="studentid != null">
+    		and studentid = #{studentid}
+    	</if>
+    </where>
+  </select>
+  <select id="selectPhone" parameterType="String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where phone = #{phone} and password = #{password}
+  </select>
+  <delete id="delete" parameterType="String">
+    delete from user
+    where user_id = #{userId}
+  </delete>
+  <insert id="insert" parameterType="com.bs.student.bean.User">
+    insert into user (user_id, name, 
+      phone, password, realname, 
+      school, major, studentid, 
+      create_time, update_time)
+    values (#{userId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
+      #{school,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, #{studentid,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bs.student.bean.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+      <if test="major != null">
+        major,
+      </if>
+      <if test="studentid != null">
+        studentid,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="studentid != null">
+        #{studentid,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.bs.student.bean.User">
+    update user
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        major = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="studentid != null">
+        studentid = #{studentid,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+</mapper>
