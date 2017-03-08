@@ -30,7 +30,7 @@
           
         <!-- jdbc连接 -->  
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"  
-            connectionURL="jdbc:mysql://127.0.0.1:3306/venue?characterEncoding=UTF-8" userId="root"  
+            connectionURL="jdbc:mysql://127.0.0.1:3306/student?characterEncoding=UTF-8" userId="root"  
             password="123456" />  
           
         <!-- 类型转换 -->  
@@ -40,8 +40,8 @@
         </javaTypeResolver>  
           
         <!-- 生成实体类地址 -->    
-        <javaModelGenerator targetPackage="com.bs.venue.bean"  
-            targetProject="H:/bswork/venue/src/main/java" >  
+        <javaModelGenerator targetPackage="com.bs.student.bean"  
+            targetProject="H:/GIT/student/student/src/main/java" >  
             <!-- 是否在当前路径下新加一层schema,eg：fase路径cn.ffcs.test.domain"， true:cn.ffcs.test.domain".[schemaName] -->  
             <property name="enableSubPackages" value="false"/>  
             <!-- 是否针对string类型的字段在set的时候进行trim调用 -->  
@@ -50,14 +50,14 @@
           
         <!-- 生成mapxml文件 -->  
         <sqlMapGenerator targetPackage="conf/mybatis/mappers"  
-            targetProject="H:/bswork/venue/src/main/resources" >  
+            targetProject="H:/GIT/student/student/src/main/resources" >  
             <!-- 是否在当前路径下新加一层schema,eg：fase路径cn.ffcs.test.domain"， true:cn.ffcs.test.domain".[schemaName] -->  
             <property name="enableSubPackages" value="false" />  
         </sqlMapGenerator>  
           
         <!-- 生成mapxml对应client，也就是接口dao -->      
-        <javaClientGenerator targetPackage="com.bs.venue.dao"  
-            targetProject="H:/bswork/venue/src/main/java" type="XMLMAPPER" >  
+        <javaClientGenerator targetPackage="com.bs.student.dao"  
+            targetProject="H:/GIT/student/student/src/main/java" type="XMLMAPPER" >  
             <!-- 是否在当前路径下新加一层schema,eg：fase路径cn.ffcs.test.domain"， true:cn.ffcs.test.domain".[schemaName] -->  
             <property name="enableSubPackages" value="false" />  
         </javaClientGenerator>  
@@ -82,31 +82,25 @@
             enableUpdateByExample="false">  
         </table>   -->
         
-        <table schema="venue" tableName="gymnasium"  
-            domainObjectName="Gymnasium" enableCountByExample="false"  
+        <table schema="student" tableName="student"  
+            domainObjectName="Student" enableCountByExample="false"  
             enableDeleteByExample="false" enableSelectByExample="false"  
             enableUpdateByExample="false">  
         </table> 
-        <table schema="venue" tableName="reserve"  
-            domainObjectName="Reserve" enableCountByExample="false"  
+        <table schema="student" tableName="course"  
+            domainObjectName="Course" enableCountByExample="false"  
             enableDeleteByExample="false" enableSelectByExample="false"  
             enableUpdateByExample="false">  
         </table> 
-        <table schema="venue" tableName="user"  
-            domainObjectName="User" enableCountByExample="false"  
+        <table schema="student" tableName="grade"  
+            domainObjectName="Grade" enableCountByExample="false"  
             enableDeleteByExample="false" enableSelectByExample="false"  
             enableUpdateByExample="false">  
         </table> 
-        <table schema="venue" tableName="admin"  
-            domainObjectName="Admin" enableCountByExample="false"  
+        <table schema="student" tableName="marks"  
+            domainObjectName="Marks" enableCountByExample="false"  
             enableDeleteByExample="false" enableSelectByExample="false"  
             enableUpdateByExample="false">  
         </table> 
-        <table schema="venue" tableName="news"  
-            domainObjectName="News" enableCountByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false"  
-            enableUpdateByExample="false">  
-        </table> 
-  
     </context>  
 </generatorConfiguration>  

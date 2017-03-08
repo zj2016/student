@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bs.student.dao.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.bs.student.bean.Student">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="stu_id" jdbcType="VARCHAR" property="stuId" />
+    <result column="stu_name" jdbcType="VARCHAR" property="stuName" />
+    <result column="majoy" jdbcType="VARCHAR" property="majoy" />
+    <result column="class" jdbcType="VARCHAR" property="clazz" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, stu_id, stu_name, majoy, class
+  </sql>
+  
+  <select id="select" parameterType="String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where stu_id = #{stuId}
+  </select>
+  
+  <delete id="delete" parameterType="String">
+    delete from student
+    where stu_id = #{stuId}
+  </delete>
+  
+  <insert id="insert" parameterType="com.bs.student.bean.Student">
+    insert into student (id, stu_id, stu_name, 
+      majoy, class)
+    values (#{id,jdbcType=INTEGER}, #{stuId,jdbcType=VARCHAR}, #{stuName,jdbcType=VARCHAR}, 
+      #{majoy,jdbcType=VARCHAR}, #{clazz,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="com.bs.student.bean.Student">
+    update student
+    <set>
+      <if test="stuName != null">
+        stu_name = #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="majoy != null">
+        majoy = #{majoy,jdbcType=VARCHAR},
+      </if>
+      <if test="clazz != null">
+        class = #{clazz,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where stu_id = #{stuId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectList" parameterType="Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    <where>
+    	<if test="stuId != null">
+        	and stu_id = #{stuId,jdbcType=VARCHAR}
+      	</if>
+    	<if test="stuName != null">
+        	and INSTR(stu_name, #{stuName,jdbcType=VARCHAR})
+      	</if>
+      	<if test="majoy != null">
+        	and INSTR(majoy, #{majoy,jdbcType=VARCHAR})
+      	</if>
+      	<if test="clazz != null">
+        	and INSTR(class, #{clazz,jdbcType=VARCHAR})
+      	</if>
+    </where>
+    order by class asc, stu_name asc
+    limit #{offset}, #{limit}
+  </select>
+  
+  <select id="selectCount" parameterType="Map" resultType="int">
+    select 
+    count(*)
+    from student
+    <where>
+    	<if test="stuId != null">
+        	and stu_id = #{stuId,jdbcType=VARCHAR}
+      	</if>
+    	<if test="stuName != null">
+        	and INSTR(stu_name, #{stuName,jdbcType=VARCHAR})
+      	</if>
+      	<if test="majoy != null">
+        	and INSTR(majoy, #{majoy,jdbcType=VARCHAR})
+      	</if>
+      	<if test="clazz != null">
+        	and INSTR(class, #{clazz,jdbcType=VARCHAR})
+      	</if>
+    </where>
+  </select>
+  
+</mapper>

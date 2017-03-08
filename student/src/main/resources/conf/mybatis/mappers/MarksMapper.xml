@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bs.student.dao.MarksMapper">
+  <resultMap id="BaseResultMap" type="com.bs.student.bean.Marks">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="mark_id" jdbcType="VARCHAR" property="markId" />
+    <result column="deduct" jdbcType="INTEGER" property="deduct" />
+    <result column="cause" jdbcType="VARCHAR" property="cause" />
+    <result column="stu_id" jdbcType="VARCHAR" property="stuId" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, mark_id, deduct, cause, stu_id
+  </sql>
+  
+  <select id="select" parameterType="String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from marks
+    where mark_id = #{markId}
+  </select>
+  
+  <delete id="delete" parameterType="String">
+    delete from marks
+    where mark_id = #{markId}
+  </delete>
+  
+  <insert id="insert" parameterType="com.bs.student.bean.Marks">
+    insert into marks (id, deduct, cause, 
+      stu_id)
+    values (#{id,jdbcType=INTEGER}, #{deduct,jdbcType=INTEGER}, #{cause,jdbcType=VARCHAR}, 
+      #{stuId,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="com.bs.student.bean.Marks">
+    update marks
+    <set>
+      <if test="deduct != null">
+        deduct = #{deduct,jdbcType=INTEGER},
+      </if>
+      <if test="cause != null">
+        cause = #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="stuId != null">
+        stu_id = #{stuId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where mark_id = #{markId}
+  </update>
+  
+  <select id="selectList" parameterType="Map" resultType="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from marks
+    <where>
+    	<if test="markId != null">
+	        mark_id = #{markId}
+	    </if>
+    	<if test="deduct != null">
+	        and deduct = #{deduct,jdbcType=INTEGER}
+	    </if>
+	    <if test="cause != null">
+	        and INSTR(cause, #{cause,jdbcType=VARCHAR})
+	    </if>
+	    <if test="stuId != null">
+	        and stu_id = #{stuId,jdbcType=VARCHAR}
+	    </if>
+    </where>
+    order by deduct desc
+    limit #{offset}, #{limit}
+  </select>
+  
+  <select id="selectCount" parameterType="Map" resultType="int">
+    select 
+    count(*)
+    from marks
+    <where>
+    	<if test="markId != null">
+	        mark_id = #{markId}
+	    </if>
+    	<if test="deduct != null">
+	        and deduct = #{deduct,jdbcType=INTEGER}
+	    </if>
+	    <if test="cause != null">
+	        and INSTR(cause, #{cause,jdbcType=VARCHAR})
+	    </if>
+	    <if test="stuId != null">
+	        and stu_id = #{stuId,jdbcType=VARCHAR}
+	    </if>
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bs.student.dao.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.bs.student.bean.Course">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cou_id" jdbcType="VARCHAR" property="couId" />
+    <result column="cou_name" jdbcType="VARCHAR" property="couName" />
+    <result column="period" jdbcType="VARCHAR" property="period" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, cou_id, cou_name, period
+  </sql>
+  
+  <select id="select" parameterType="String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from course
+    where cou_id = #{couId}
+  </select>
+  
+  <delete id="delete" parameterType="String">
+    delete from course
+    where cou_id = #{couId}
+  </delete>
+  
+  <insert id="insert" parameterType="com.bs.student.bean.Course">
+    insert into course (id, cou_id, cou_name, 
+      period)
+    values (#{id,jdbcType=INTEGER}, #{couId,jdbcType=VARCHAR}, #{couName,jdbcType=VARCHAR}, 
+      #{period,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="com.bs.student.bean.Course">
+    update course
+    <set>
+      <if test="couName != null">
+        cou_name = #{couName,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cou_id = #{couId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectList" parameterType="Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from course
+    <where>
+    	<if test="couId != null">
+    		cou_id = #{couId}
+    	</if>
+    	<if test="couName != null">
+    		and INSTR(cou_name, #{couName})
+    	</if>
+    </where>
+    order by cou_name asc
+    limit #{offset},#{limit}
+  </select>
+  
+  <select id="selectCount" parameterType="Map" resultType="int">
+    select 
+    count(*)
+    from course
+    <where>
+    	<if test="couId != null">
+    		cou_id = #{couId}
+    	</if>
+    	<if test="couName != null">
+    		and INSTR(cou_name, #{couName})
+    	</if>
+    </where>
+  </select>
+  
+</mapper>

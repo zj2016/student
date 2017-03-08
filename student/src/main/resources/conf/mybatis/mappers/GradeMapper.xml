@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bs.student.dao.GradeMapper">
+  <resultMap id="BaseResultMap" type="com.bs.student.bean.Grade">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="grade_id" jdbcType="VARCHAR" property="gradeId" />
+    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="stu_id" jdbcType="VARCHAR" property="stuId" />
+    <result column="cou_id" jdbcType="VARCHAR" property="couId" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, grade_id, score, stu_id, cou_id
+  </sql>
+  
+  <select id="select" parameterType="String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from grade
+    where grade_id = #{gradeId}
+  </select>
+  
+  <delete id="delete" parameterType="String">
+    delete from grade
+    where grade_id = #{gradeId}
+  </delete>
+  
+  <insert id="insert" parameterType="com.bs.student.bean.Grade">
+    insert into grade (id, grade_id, score, 
+      stu_id, cou_id)
+    values (#{id,jdbcType=INTEGER}, #{gradeId,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, 
+      #{stuId,jdbcType=VARCHAR}, #{couId,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="com.bs.student.bean.Grade">
+    update grade
+    <set>
+      <if test="score != null">
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="stuId != null">
+        stu_id = #{stuId,jdbcType=VARCHAR},
+      </if>
+      <if test="couId != null">
+        cou_id = #{couId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where grade_id = #{gradeId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectList" parameterType="Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from grade
+    <where>
+    	<if test="score != null">
+        	score = #{score,jdbcType=INTEGER}
+      	</if>
+      	<if test="stuId != null">
+       		and stu_id = #{stuId,jdbcType=VARCHAR}
+      	</if>
+      	<if test="couId != null">
+        	and cou_id = #{couId,jdbcType=VARCHAR}
+      	</if>
+    </where>
+    order by score desc
+    limit #{offset}, #{limit}
+  </select>
+  
+  <select id="selectCount" parameterType="Map" resultType="int">
+    select 
+    count(*)
+    from grade
+    <where>
+    	<if test="score != null">
+        	score = #{score,jdbcType=INTEGER}
+      	</if>
+      	<if test="stuId != null">
+       		and stu_id = #{stuId,jdbcType=VARCHAR}
+      	</if>
+      	<if test="couId != null">
+        	and cou_id = #{couId,jdbcType=VARCHAR}
+      	</if>
+    </where>
+  </select>
+</mapper>

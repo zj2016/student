@@ -17,7 +17,7 @@ public class GeneratorUtils {
         List<String> warnings = new ArrayList<String>();  
         boolean overwrite = true;  
         //读取配置文件  
-        File configFile = new File("H:/bswork/venue/src/main/resources/conf/mybatis/generatorConfig.xml");  
+        File configFile = new File("H:/GIT/student/student/src/main/resources/conf/mybatis/generatorConfig.xml");  
         ConfigurationParser cp = new ConfigurationParser(warnings);  
         Configuration config;  
         try {  
