@@ -48,7 +48,7 @@
     where mark_id = #{markId}
   </update>
   
-  <select id="selectList" parameterType="Map" resultType="BaseResultMap">
+  <select id="selectList" parameterType="Map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from marks
