@@ -7,16 +7,18 @@
     <result column="deduct" jdbcType="INTEGER" property="deduct" />
     <result column="cause" jdbcType="VARCHAR" property="cause" />
     <result column="stu_id" jdbcType="VARCHAR" property="stuId" />
+    <result column="name" jdbcType="VARCHAR" property="stuName" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    id, mark_id, deduct, cause, stu_id
+    m.id, mark_id, deduct, cause, m.stu_id, s.stu_name as name
+    from marks m left join student s
+    on m.stu_id = s.stu_id
   </sql>
   
   <select id="select" parameterType="String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from marks
     where mark_id = #{markId}
   </select>
   
@@ -51,19 +53,18 @@
   <select id="selectList" parameterType="Map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from marks
     <where>
     	<if test="markId != null">
-	        mark_id = #{markId}
+	        m.mark_id = #{markId}
 	    </if>
     	<if test="deduct != null">
-	        and deduct = #{deduct,jdbcType=INTEGER}
+	        and m.deduct = #{deduct,jdbcType=INTEGER}
 	    </if>
 	    <if test="cause != null">
-	        and INSTR(cause, #{cause,jdbcType=VARCHAR})
+	        and INSTR(m.cause, #{cause,jdbcType=VARCHAR})
 	    </if>
 	    <if test="stuId != null">
-	        and stu_id = #{stuId,jdbcType=VARCHAR}
+	        and m.stu_id = #{stuId,jdbcType=VARCHAR}
 	    </if>
     </where>
     order by deduct desc

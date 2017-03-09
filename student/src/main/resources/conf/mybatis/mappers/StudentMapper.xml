@@ -7,6 +7,9 @@
     <result column="stu_name" jdbcType="VARCHAR" property="stuName" />
     <result column="majoy" jdbcType="VARCHAR" property="majoy" />
     <result column="class" jdbcType="VARCHAR" property="clazz" />
+    <result column="sum_score" jdbcType="INTEGER" property="sumScore" />
+    <result column="sum_deduct" jdbcType="INTEGER" property="numDeduct" />
+    <result column="sum_sd" jdbcType="FLOAT" property="sumSd" />
   </resultMap>
   
   <sql id="Base_Column_List">
@@ -88,6 +91,27 @@
         	and INSTR(class, #{clazz,jdbcType=VARCHAR})
       	</if>
     </where>
+  </select>
+  
+  <select id="selectScoreDeduct" parameterType="Map" resultMap="BaseResultMap">
+  	SELECT s.stu_id, s.stu_name, s.class, s.majoy, IFNULL(g.sum_score,0) as sum_score, IFNULL(m.sum_deduct,0) as sum_deduct, 
+  	(IFNULL(g.sum_score,0)/(SELECT COUNT(cou_id) FROM course)*0.9+IFNULL(m.sum_deduct,0)) AS sum_sd
+	FROM student s LEFT JOIN (SELECT stu_id, IFNULL(SUM(score),0) AS sum_score FROM grade GROUP BY stu_id) g
+	ON s.`stu_id` = g.stu_id
+	LEFT JOIN (SELECT stu_id, IFNULL(SUM(deduct),0) AS sum_deduct FROM marks GROUP BY stu_id) m
+	ON s.`stu_id` = m.stu_id
+	WHERE s.stu_id NOT IN (SELECT stu_id FROM grade WHERE score &lt; 60) AND s.stu_id IN (SELECT stu_id FROM grade)
+	ORDER BY sum_sd DESC
+	limit #{offset}, #{limit}
+  </select>
+  
+  <select id="selectScoreDeductCount" parameterType="Map" resultType="int">
+  	SELECT count(1)
+	FROM student s LEFT JOIN (SELECT stu_id, IFNULL(SUM(score),0) AS sum_score FROM grade GROUP BY stu_id) g
+	ON s.`stu_id` = g.stu_id
+	LEFT JOIN (SELECT stu_id, IFNULL(SUM(deduct),0) AS sum_deduct FROM marks GROUP BY stu_id) m
+	ON s.`stu_id` = m.stu_id
+	WHERE s.stu_id NOT IN (SELECT stu_id FROM grade WHERE score &lt; 60) AND s.stu_id IN (SELECT stu_id FROM grade)
   </select>
   
 </mapper>

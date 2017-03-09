@@ -8,8 +8,12 @@ public class Grade {
     private Integer score;
 
     private String stuId;
+    
+    private String stuName;
 
     private String couId;
+    
+    private String couName;
 
     public Integer getId() {
         return id;
@@ -50,4 +54,21 @@ public class Grade {
     public void setCouId(String couId) {
         this.couId = couId == null ? null : couId.trim();
     }
+
+	public String getStuName() {
+		return stuName;
+	}
+
+	public void setStuName(String stuName) {
+		this.stuName = stuName;
+	}
+
+	public String getCouName() {
+		return couName;
+	}
+
+	public void setCouName(String couName) {
+		this.couName = couName;
+	}
+    
 }

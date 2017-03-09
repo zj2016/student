@@ -10,6 +10,12 @@ public class Student {
     private String majoy;
 
     private String clazz;
+    
+    private Integer sumScore;
+    
+    private Integer numDeduct;
+    
+    private Float sumSd;
 
     public Integer getId() {
         return id;
@@ -50,5 +56,31 @@ public class Student {
 	public void setClazz(String clazz) {
 		this.clazz = clazz;
 	}
+
+	public Integer getSumScore() {
+		return sumScore;
+	}
+
+	public void setSumScore(Integer sumScore) {
+		this.sumScore = sumScore;
+	}
+
+	public Integer getNumDeduct() {
+		return numDeduct;
+	}
+
+	public void setNumDeduct(Integer numDeduct) {
+		this.numDeduct = numDeduct;
+	}
+
+	public Float getSumSd() {
+		return sumSd;
+	}
+
+	public void setSumSd(Float sumSd) {
+		this.sumSd = sumSd;
+	}
+
+	
     
 }

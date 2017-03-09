@@ -10,12 +10,35 @@ $(function () {
 
 });
 
+function rm(id){
+	$.ajax({
+        type: "post",
+        url: "/adwanou/remove",
+        data: {wanouId: id},
+        success: function (data) {
+        	if(data.code == 10000){
+        		alert("删除成功");
+        		$("button[name='refresh']").trigger('click');
+        	}else{
+        		alert(data.info);
+        	}
+        },
+        error: function () {
+            alert("失败，网络异常");
+        },
+        complete: function () {
+
+        }
+
+    });
+}
+
 var TableInit = function () {
     var oTableInit = new Object();
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_departments').bootstrapTable({
-            url: '/type/list',         //请求后台的URL（*）
+            url: '/grants/list',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
             toolbar: '#toolbar',                //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
@@ -33,47 +56,80 @@ var TableInit = function () {
             showColumns: true,                  //是否显示所有的列
             showRefresh: true,                  //是否显示刷新按钮
             minimumCountColumns: 2,             //最少允许的列数
-            //clickToSelect: true,                //是否启用点击选中行
+            clickToSelect: true,                //是否启用点击选中行
             //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
             uniqueId: "id",                     //每一行的唯一标识，一般为主键列
             showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
             cardView: false,                    //是否显示详细视图
             detailView: false,                   //是否显示父子表
             classes: "table table-bordered",
-            columns: [{
-                field: 'typeId',
-                title: '分类id',
+            rowStyle: function (row, index) {
+                //这里有5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
+                var strclass = "";
+                if (index == 0) {
+                    strclass = 'success';//还有一个active
+                }
+                else if (index >= 1 && index <= 3) {
+                    strclass = 'info';
+                }
+                else if (index > 3 && index <= 9) {
+                	strclass = 'warning';
+                }
+                else {
+                	return {};
+                }
+                return { classes: strclass }
+            },
+            columns: [ {
+                field: 'stuId',
+                title: '学号',
             }, {
-                field: 'title',
-                title: '分类名',
-                editable:true
-            }],
-            onEditableSave: function (field, row, oldValue, $el) {
-            	//四个参数field, row, oldValue, $el分别对应着当前列的名称、当前行数据对象、更新前的值、编辑的当前单元格的jQuery对象。
-            	console.log(field);
-            	console.log(row);
-            	console.log(oldValue);
-            	console.log($el);
-                $.ajax({
-                    type: "post",
-                    url: "/type/update",
-                    data: {typeId: row.typeId, title: row.title},
-                    success: function (data) {
-                    	if(data.code == 10000){
-                    		alert("更新成功");
-                    	}else{
-                    		alert(data.info);
-                    	}
-                    },
-                    error: function () {
-                        alert("失败，网络异常");
-                    },
-                    complete: function () {
-
+                field: 'stuName',
+                title: '学生	姓名'
+            }, {
+                field: 'majoy',
+                title: '专业'
+            }, {
+                field: 'clazz',
+                title: '班级'
+            }, {
+                field: 'sumScore',
+                title: '成绩积分'
+            }, {
+                field: 'numDeduct',
+                title: '活动积分'
+            }, {
+                field: 'sumSd',
+                title: '总积分'
+            }, {
+                field: 'id',
+                title: '助学金',
+                formatter:function(value,row,index){
+                	var strclass = "";
+                    if (index == 0) {
+                        strclass = '一等助学金';
                     }
-
-                });
-            }
+                    else if (index >= 1 && index <= 3) {
+                        strclass = '二等助学金';
+                    }
+                    else if (index > 3 && index <= 9) {
+                    	strclass = '三等助学金';
+                    }
+                    return strclass
+            	}
+            }, {
+            	field: 'markId',
+            	title: '操作',
+            	formatter:function(value,row,index){
+            		//通过formatter可以自定义列显示的内容
+            		//value：当前field的值，即id
+            		//row：当前行的数据
+            		//var a = '<a href="javascript:;" onclick="zj('+index+')" >测试</a>';
+            		var a ='&nbsp;<a href="/adwanou/edit?wanouId='+value+'"><span class="glyphicon glyphicon-edit"></span> 修改</a>'
+    					+ '&nbsp;<a href="javascript:;" onclick="rm(\''+value+'\')"><span class="glyphicon glyphicon-edit"></span> 删除</a>';
+            		return a;
+            	}
+            }]                          
         });                             
     };   
                                        

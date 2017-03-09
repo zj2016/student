@@ -26,10 +26,9 @@ public class AdminController {
 		Admin admin = adminService.login(name, password);
 		
 		if(admin == null){
-			return RestResult.error("鐢ㄦ埛鍚嶅拰瀵嗙爜涓嶅尮閰�");
+			return RestResult.error("用户名密码不匹配");
 		}
 		
-		request.getSession().removeAttribute("_user");
 		request.getSession().setAttribute("_admin", admin);
 		
 		return RestResult.success();
@@ -38,7 +37,7 @@ public class AdminController {
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request){
 		request.getSession().removeAttribute("_admin");
-		return "login";
+		return "redirect:/index";
 	}
 	
 }

@@ -11,23 +11,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bs.student.bean.Student;
+import com.bs.student.bean.Marks;
 import com.bs.student.query.Query;
 import com.bs.student.rest.Rest;
-import com.bs.student.service.StudentService;
+import com.bs.student.service.MarksService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Controller
-@RequestMapping("/student")
-public class StudentController {
-	
+@RequestMapping("/mark")
+public class MarkController {
+
 	@Autowired
-	private StudentService studentService;
+	private MarksService markService;
 	
 	@RequestMapping(value = "/{page}", method = RequestMethod.GET)
 	public String page(@PathVariable("page") String page, ModelMap modelMap){
 		
-		modelMap.addAttribute("page", "student");
+		modelMap.addAttribute("page", "mark");
 		return page;
 	}
 	
@@ -36,12 +36,10 @@ public class StudentController {
 	public String list(Query query) throws JsonProcessingException{
 		
 		Map<String, Object> params = query.toMap();
-		List<Student> stuList = studentService.getList(params);
-		int count = studentService.getCount(params);
+		List<Marks> stuList = markService.getList(params);
+		int count = markService.getCount(params);
 		
-		Rest<Student> rest = new Rest<Student>(count, stuList);
+		Rest<Marks> rest = new Rest<Marks>(count, stuList);
 		return rest.toJson();
 	}
-	
-
 }

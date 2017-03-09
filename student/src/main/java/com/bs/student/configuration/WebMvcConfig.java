@@ -35,7 +35,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		//registry.addInterceptor(authorInterceptor).addPathPatterns("/ad/**").excludePathPatterns("/ad/admin/login","/ad/admin/logout");
+		registry.addInterceptor(authorInterceptor).addPathPatterns("/**").excludePathPatterns("/admin/login","/admin/logout","/index");
 	}
 	
 	@Bean

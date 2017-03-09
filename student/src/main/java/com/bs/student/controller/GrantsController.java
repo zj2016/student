@@ -18,8 +18,9 @@ import com.bs.student.service.StudentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Controller
-@RequestMapping("/student")
-public class StudentController {
+@RequestMapping("/grants")
+public class GrantsController {
+
 	
 	@Autowired
 	private StudentService studentService;
@@ -27,7 +28,7 @@ public class StudentController {
 	@RequestMapping(value = "/{page}", method = RequestMethod.GET)
 	public String page(@PathVariable("page") String page, ModelMap modelMap){
 		
-		modelMap.addAttribute("page", "student");
+		modelMap.addAttribute("page", "grants");
 		return page;
 	}
 	
@@ -36,12 +37,11 @@ public class StudentController {
 	public String list(Query query) throws JsonProcessingException{
 		
 		Map<String, Object> params = query.toMap();
-		List<Student> stuList = studentService.getList(params);
-		int count = studentService.getCount(params);
+		List<Student> stuList = studentService.getScoreDeduct(params);
+		int count = studentService.getScoreDeductCount(params);
 		
 		Rest<Student> rest = new Rest<Student>(count, stuList);
 		return rest.toJson();
 	}
 	
-
 }

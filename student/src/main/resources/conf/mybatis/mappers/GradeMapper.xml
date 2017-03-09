@@ -6,17 +6,22 @@
     <result column="grade_id" jdbcType="VARCHAR" property="gradeId" />
     <result column="score" jdbcType="INTEGER" property="score" />
     <result column="stu_id" jdbcType="VARCHAR" property="stuId" />
+    <result column="s_name" jdbcType="VARCHAR" property="stuName" />
     <result column="cou_id" jdbcType="VARCHAR" property="couId" />
+    <result column="c_name" jdbcType="VARCHAR" property="couName" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    id, grade_id, score, stu_id, cou_id
+    g.id, grade_id, score, g.stu_id, s.stu_name as s_name, g.cou_id, c.cou_name as c_name 
+    from grade g left join course c 
+    on g.cou_id = c.cou_id
+    left join student s
+    on g.stu_id = s.stu_id
   </sql>
   
   <select id="select" parameterType="String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from grade
     where grade_id = #{gradeId}
   </select>
   
@@ -51,16 +56,15 @@
   <select id="selectList" parameterType="Map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from grade
     <where>
     	<if test="score != null">
-        	score = #{score,jdbcType=INTEGER}
+        	g.score = #{score,jdbcType=INTEGER}
       	</if>
       	<if test="stuId != null">
-       		and stu_id = #{stuId,jdbcType=VARCHAR}
+       		and g.stu_id = #{stuId,jdbcType=VARCHAR}
       	</if>
       	<if test="couId != null">
-        	and cou_id = #{couId,jdbcType=VARCHAR}
+        	and g.cou_id = #{couId,jdbcType=VARCHAR}
       	</if>
     </where>
     order by score desc

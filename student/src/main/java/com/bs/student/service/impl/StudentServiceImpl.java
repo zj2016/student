@@ -40,4 +40,12 @@ public class StudentServiceImpl implements StudentService{
 		return studentMapper.selectCount(params);
 	}
 
+	public List<Student> getScoreDeduct(Map<String, Object> params) {
+		return studentMapper.selectScoreDeduct(params);
+	}
+
+	public int getScoreDeductCount(Map<String, Object> params) {
+		return studentMapper.selectScoreDeductCount(params);
+	}
+
 }

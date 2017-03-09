@@ -10,12 +10,35 @@ $(function () {
 
 });
 
+function rm(id){
+	$.ajax({
+        type: "post",
+        url: "/adwanou/remove",
+        data: {wanouId: id},
+        success: function (data) {
+        	if(data.code == 10000){
+        		alert("删除成功");
+        		$("button[name='refresh']").trigger('click');
+        	}else{
+        		alert(data.info);
+        	}
+        },
+        error: function () {
+            alert("失败，网络异常");
+        },
+        complete: function () {
+
+        }
+
+    });
+}
+
 var TableInit = function () {
     var oTableInit = new Object();
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_departments').bootstrapTable({
-            url: '/user/list',         //请求后台的URL（*）
+            url: '/mark/list',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
             toolbar: '#toolbar',                //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
@@ -33,26 +56,62 @@ var TableInit = function () {
             showColumns: true,                  //是否显示所有的列
             showRefresh: true,                  //是否显示刷新按钮
             minimumCountColumns: 2,             //最少允许的列数
-            //clickToSelect: true,                //是否启用点击选中行
+            clickToSelect: true,                //是否启用点击选中行
             //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
             uniqueId: "id",                     //每一行的唯一标识，一般为主键列
             showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
             cardView: false,                    //是否显示详细视图
             detailView: false,                   //是否显示父子表
             classes: "table table-bordered",
-            columns: [{
-                field: 'userId',
-                title: '用户id'
+            rowStyle: function (row, index) {
+                //这里有5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
+                var strclass = "";
+                if (row.deduct > 0) {
+                    strclass = 'success';//还有一个active
+                }
+                else if (row.deduct < 0) {
+                    strclass = 'danger';
+                }
+                else {
+                    return {};
+                }
+                return { classes: strclass }
+            },
+            columns: [ {
+                field: 'stuId',
+                title: '学号',
             }, {
-                field: 'name',
-                title: '用户名'
+                field: 'stuName',
+                title: '学生	姓名'
             }, {
-                field: 'phone',
-                title: '手机号'
+                field: 'deduct',
+                title: '加/扣',
+                formatter:function(value,row,index){
+                	var text = "加分";
+                	if(value < 0){
+                		text = "扣分";
+                	}
+            		return text;
+            	}
             }, {
-            	field: 'realname',
-            	title: '真实姓名'
-            }]
+                field: 'deduct',
+                title: '分值'
+            }, {
+                field: 'cause',
+                title: '原因'
+            }, {
+            	field: 'markId',
+            	title: '操作',
+            	formatter:function(value,row,index){
+            		//通过formatter可以自定义列显示的内容
+            		//value：当前field的值，即id
+            		//row：当前行的数据
+            		//var a = '<a href="javascript:;" onclick="zj('+index+')" >测试</a>';
+            		var a ='&nbsp;<a href="/adwanou/edit?wanouId='+value+'"><span class="glyphicon glyphicon-edit"></span> 修改</a>'
+    					+ '&nbsp;<a href="javascript:;" onclick="rm(\''+value+'\')"><span class="glyphicon glyphicon-edit"></span> 删除</a>';
+            		return a;
+            	}
+            }]                          
         });                             
     };   
                                        

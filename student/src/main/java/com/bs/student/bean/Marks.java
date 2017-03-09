@@ -10,6 +10,8 @@ public class Marks {
     private String cause;
 
     private String stuId;
+    
+    private String stuName;
 
     public Integer getId() {
         return id;
@@ -50,4 +52,13 @@ public class Marks {
     public void setStuId(String stuId) {
         this.stuId = stuId == null ? null : stuId.trim();
     }
+
+	public String getStuName() {
+		return stuName;
+	}
+
+	public void setStuName(String stuName) {
+		this.stuName = stuName;
+	}
+    
 }
