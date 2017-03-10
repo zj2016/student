@@ -1,0 +1,64 @@
+#parse("/header.html")
+<style>
+label{
+	color: rebeccapurple;
+	font-size: initial;
+	margin-right: 10px;
+}
+</style>
+<div class="admin">
+    <div class="tab">
+    <strong>添加学生加、扣积分</strong>
+      <div class="tab-body">
+        <br />
+        <div style="margin-left: 200px" class="padding border-bottom">
+            <label style="color: blue;" for="siteurl">$!{student.stuId}</label>
+        	<label style="color: blue;" for="siteurl">$!{student.stuName}</label>
+        </div>
+        <div class="tab-panel active" id="tab-set">
+        	<form id="edit" method="post" class="form-x">
+        		<input hidden type="text" id="stuId" name="stuId" value="$!student.stuId"/>
+        		<div class="form-group">
+                    <div class="label"><label for="siteurl">加/扣分</label></div>
+                    <div class="field">
+                    	<select name=""type style="margin-top: 8px;width: 60px;height: 25px;">
+                    		<option value="1">加分</option>
+                    		<option value="-1">扣分</option>
+                    	</select>
+                    </div>
+                </div>
+        		<div class="form-group">
+                    <div class="label"><label for="siteurl">分值</label></div>
+                    <div class="field">
+                    	<input type="number" class="input" name="deduct" size="50" placeholder="请填写分值" data-validate="required:请填写分值"/>
+                    </div>
+                </div>
+        		<div class="form-group">
+                    <div class="label"><label for="siteurl">描述</label></div>
+                    <div class="field">
+                    	<input type="text" class="input" name="cause" size="50" placeholder="请填写加扣分的原因" data-validate="required:请填写加扣分的原因"/>
+                    </div>
+                </div>
+                <div class="form-button"><button class="button bg-main" type="button" onclick="sub()">提交</button></div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+<script>
+	function sub(){
+		
+		var url = "/mark/add";
+		jQuery.post(url,
+				$('#edit').serialize(),
+				function(data){
+					alert(data.info);
+					if(data.code == 10000){
+						location.href = "${rc.contextPath}/student/student_list";
+					}
+				},
+				"json");
+	}
+</script>
+</body>
+</html>

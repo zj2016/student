@@ -42,4 +42,8 @@ public class GradeServiceImpl implements GradeService{
 		return gradeMapper.selectCount(params);
 	}
 
+	public int batchAdd(List<Grade> gradeList) {
+		return gradeMapper.insertBatch(gradeList);
+	}
+
 }

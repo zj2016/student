@@ -10,6 +10,29 @@ $(function () {
 
 });
 
+function rm(id){
+	$.ajax({
+        type: "get",
+        url: "/course/remove",
+        data: {couId: id},
+        success: function (data) {
+        	if(data.code == 10000){
+        		alert("删除成功");
+        		$("button[name='refresh']").trigger('click');
+        	}else{
+        		alert("删除失败");
+        	}
+        },
+        error: function () {
+            alert("失败，网络异常");
+        },
+        complete: function () {
+
+        }
+
+    });
+}
+
 var TableInit = function () {
     var oTableInit = new Object();
     //初始化Table
@@ -43,10 +66,53 @@ var TableInit = function () {
             columns: [{
                 field: 'couName',
                 title: '课程',
+                editable:true,
+                width: 300,
+                align: "center"
             }, {
                 field: 'period',
-                title: '课时'
-            }]
+                title: '课时',
+                editable:true,
+                width: 300,
+                align: "center"
+            }, {
+                field: 'couId',
+                title: '操作',
+                width: 100,
+            	formatter:function(value,row,index){
+            		var a = '<a class="button border-yellow button-little" href="javascript:;" onclick="rm(\''+value+'\')">删除</a>';
+            		return a;
+            	}
+            }],
+            onEditableSave: function (field, row, oldValue, $el) {
+            	//四个参数field, row, oldValue, $el分别对应着当前列的名称、当前行数据对象、更新前的值、编辑的当前单元格的jQuery对象。
+            	var data;
+            	if(field == "couName"){
+            		data = {couId: row.couId, couName: row.couName}
+            	}else if(field == "period"){
+            		data = {couId: row.couId, period: row.period}
+            	}
+            	
+            	$.ajax({
+                    type: "post",
+                    url: "/course/edit",
+                    data: data,
+                    success: function (data) {
+                    	if(data.code == 10000){
+                    		alert("更新成功");
+                    	}else{
+                    		alert(data.info);
+                    	}
+                    },
+                    error: function () {
+                        alert("失败，网络异常");
+                    },
+                    complete: function () {
+
+                    }
+
+                });
+            }
         });                             
     };   
                                        

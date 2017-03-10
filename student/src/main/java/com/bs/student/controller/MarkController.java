@@ -3,6 +3,7 @@ package com.bs.student.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bs.student.bean.Marks;
 import com.bs.student.query.Query;
 import com.bs.student.rest.Rest;
+import com.bs.student.rest.RestResult;
 import com.bs.student.service.MarksService;
+import com.bs.student.service.StudentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Controller
@@ -24,9 +27,14 @@ public class MarkController {
 	@Autowired
 	private MarksService markService;
 	
+	@Autowired
+	private StudentService studentService;
+	
 	@RequestMapping(value = "/{page}", method = RequestMethod.GET)
-	public String page(@PathVariable("page") String page, ModelMap modelMap){
-		
+	public String page(@PathVariable("page") String page, String stuId, ModelMap modelMap){
+		if(StringUtils.isNotBlank(stuId)){
+			modelMap.addAttribute("student", studentService.get(stuId));
+		}
 		modelMap.addAttribute("page", "mark");
 		return page;
 	}
@@ -41,5 +49,43 @@ public class MarkController {
 		
 		Rest<Marks> rest = new Rest<Marks>(count, stuList);
 		return rest.toJson();
+	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	@ResponseBody
+	public RestResult edit(Marks mark, ModelMap modelMap){
+		
+		int result = 0;
+		if(StringUtils.isNotBlank(mark.getMarkId())){
+			result = markService.update(mark);
+		}else{
+			result = markService.add(mark);
+		}
+		if(result > 0){
+			return RestResult.success().setInfo("成功");
+		}
+		
+		return RestResult.error("失败");
+	}
+	
+	@RequestMapping(value = "/remove", method = RequestMethod.GET)
+	@ResponseBody
+	public RestResult remove(String markId, ModelMap map){
+		int result = markService.remove(markId);
+		if(result > 0){
+			return RestResult.success();
+		}
+		return RestResult.error("失败");
+	}
+	
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@ResponseBody
+	public RestResult add(Marks mark, int type){
+		mark.setDeduct(mark.getDeduct() * type);
+		int result = markService.add(mark);
+		if(result > 0){
+			return RestResult.success().setInfo("添加成功");
+		}
+		return RestResult.error("添加失败，请重试");
 	}
 }

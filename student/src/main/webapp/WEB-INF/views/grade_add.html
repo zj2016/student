@@ -1,0 +1,71 @@
+#parse("/header.html")
+<style>
+label{
+	color: rebeccapurple;
+	font-size: initial;
+	margin-right: 10px;
+}
+</style>
+<div class="admin">
+    <div class="tab">
+    <strong>添加学生成绩</strong>
+      <div class="tab-body">
+        <br />
+        <div style="margin-left: 200px" class="padding border-bottom">
+            <label style="color: blue;" for="siteurl">$!{student.stuId}</label>
+        	<label style="color: blue;" for="siteurl">$!{student.stuName}</label>
+        </div>
+        <div class="tab-panel active" id="tab-set">
+        	<form id="edit" method="post" class="form-x">
+        		<input hidden type="text" id="stuId" name="stuId" value="$!student.stuId"/>
+        		#foreach($course in $!courseList)
+        		<div class="form-group">
+                    <div class="label"><label for="siteurl">$!{course.couName}成绩</label></div>
+                    <div class="field">
+                    	<input type="number" class="input" id="$!{course.couId}" size="50" placeholder="请填写$!{course.couName}成绩" data-validate="required:请填写$!{course.couName}成绩"/>
+                    </div>
+                </div>
+                #end
+                <div class="form-button"><button class="button bg-main" type="button" onclick="sub()">提交</button></div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+<script>
+	function sub(){
+		
+		var stuId = $('#stuId').val();
+		
+		var data = new Array();
+		$('.input').each(function(){
+			var _this = $(this);
+			console.log(_this.val() + "-" + _this.attr("id"));
+			var da = new Object();
+			da.couId = _this.attr("id");
+			da.score = _this.val();
+			da.stuId = stuId;
+			data.push(da);
+		});
+		console.log(data);
+		var gJson = JSON.stringify(data);
+		console.log(gJson);
+		
+		var url = "/grade/batch";
+		jQuery.ajax({ 
+            type:"POST", 
+            url:url, 
+            dataType:"json",      
+            contentType:"application/json",               
+            data:gJson, 
+            success:function(data){ 
+            	alert(data.info);
+				if(data.code == 10000){
+					location.href = "${rc.contextPath}/student/student_list";
+				}                    
+            } 
+         });
+	}
+</script>
+</body>
+</html>

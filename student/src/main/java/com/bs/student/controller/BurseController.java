@@ -37,6 +37,7 @@ public class BurseController {
 	public String list(Query query) throws JsonProcessingException{
 		
 		Map<String, Object> params = query.toMap();
+		params.put("sort", "sum_score");
 		List<Student> stuList = studentService.getScoreDeduct(params);
 		int count = studentService.getScoreDeductCount(params);
 		

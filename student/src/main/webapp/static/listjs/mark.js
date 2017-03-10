@@ -12,9 +12,9 @@ $(function () {
 
 function rm(id){
 	$.ajax({
-        type: "post",
-        url: "/adwanou/remove",
-        data: {wanouId: id},
+        type: "get",
+        url: "/mark/remove",
+        data: {markId: id},
         success: function (data) {
         	if(data.code == 10000){
         		alert("删除成功");
@@ -95,23 +95,49 @@ var TableInit = function () {
             	}
             }, {
                 field: 'deduct',
-                title: '分值'
+                title: '分值',
+                editable:true
             }, {
                 field: 'cause',
-                title: '原因'
+                title: '原因',
+                editable:true
             }, {
             	field: 'markId',
             	title: '操作',
             	formatter:function(value,row,index){
-            		//通过formatter可以自定义列显示的内容
-            		//value：当前field的值，即id
-            		//row：当前行的数据
-            		//var a = '<a href="javascript:;" onclick="zj('+index+')" >测试</a>';
-            		var a ='&nbsp;<a href="/adwanou/edit?wanouId='+value+'"><span class="glyphicon glyphicon-edit"></span> 修改</a>'
-    					+ '&nbsp;<a href="javascript:;" onclick="rm(\''+value+'\')"><span class="glyphicon glyphicon-edit"></span> 删除</a>';
+            		var a = '<a class="button border-yellow button-little" href="javascript:;" onclick="rm(\''+value+'\')">删除</a>';
             		return a;
             	}
-            }]                          
+            }],
+            onEditableSave: function (field, row, oldValue, $el) {
+            	//四个参数field, row, oldValue, $el分别对应着当前列的名称、当前行数据对象、更新前的值、编辑的当前单元格的jQuery对象。
+            	var data;
+            	if(field == "deduct"){
+            		data = {markId: row.markId, deduct: row.deduct}
+            	}else if(field == "cause"){
+            		data = {markId: row.markId, cause: row.cause}
+            	}
+            	
+            	$.ajax({
+                    type: "post",
+                    url: "/mark/edit",
+                    data: data,
+                    success: function (data) {
+                    	if(data.code == 10000){
+                    		alert("更新成功");
+                    	}else{
+                    		alert(data.info);
+                    	}
+                    },
+                    error: function () {
+                        alert("失败，网络异常");
+                    },
+                    complete: function () {
+
+                    }
+
+                });
+            }                          
         });                             
     };   
                                        

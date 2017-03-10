@@ -69,7 +69,7 @@
         	and INSTR(class, #{clazz,jdbcType=VARCHAR})
       	</if>
     </where>
-    order by class asc, stu_name asc
+    order by class asc, stu_id asc, stu_name asc
     limit #{offset}, #{limit}
   </select>
   
@@ -101,7 +101,7 @@
 	LEFT JOIN (SELECT stu_id, IFNULL(SUM(deduct),0) AS sum_deduct FROM marks GROUP BY stu_id) m
 	ON s.`stu_id` = m.stu_id
 	WHERE s.stu_id NOT IN (SELECT stu_id FROM grade WHERE score &lt; 60) AND s.stu_id IN (SELECT stu_id FROM grade)
-	ORDER BY sum_sd DESC
+	ORDER BY ${sort} DESC
 	limit #{offset}, #{limit}
   </select>
   

@@ -1,14 +1,11 @@
 #parse("/header.html")
+<link rel="stylesheet" href="//rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">
+<script src="//rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
+<script src="${rc.contextPath}/static/bt/bootstrap-table-editable.js"></script>	
 <script src="${rc.contextPath}/static/listjs/grade.js"></script>
 <div class="admin">
     <div class="panel admin-panel">
-    	<div class="panel-head"><strong>内容列表</strong></div>
-        <div class="padding border-bottom">
-            <input type="button" class="button button-small checkall" name="checkall" checkfor="id" value="全选" />
-            <input type="button" class="button button-small border-green" value="添加文章" />
-            <input type="button" class="button button-small border-yellow" value="批量删除" />
-            <input type="button" class="button button-small border-blue" value="回收站" />
-        </div>
+    	<div class="panel-head"><strong>成绩列表</strong></div>
         <table id="tb_departments"></table>
     </div>
     <br />

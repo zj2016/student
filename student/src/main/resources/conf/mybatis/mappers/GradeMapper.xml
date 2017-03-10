@@ -67,7 +67,7 @@
         	and g.cou_id = #{couId,jdbcType=VARCHAR}
       	</if>
     </where>
-    order by score desc
+    order by stu_id asc, score desc
     limit #{offset}, #{limit}
   </select>
   
@@ -87,4 +87,14 @@
       	</if>
     </where>
   </select>
+  
+  <insert id="insertBatch" parameterType="List">
+    insert into grade (grade_id, score, 
+      stu_id, cou_id)
+    values 
+    <foreach item="item" index="index" collection="list" separator=",">
+        (#{item.gradeId,jdbcType=VARCHAR}, #{item.score,jdbcType=INTEGER}, 
+      	#{item.stuId,jdbcType=VARCHAR}, #{item.couId,jdbcType=VARCHAR})
+  	</foreach>
+  </insert>
 </mapper>

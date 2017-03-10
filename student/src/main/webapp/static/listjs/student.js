@@ -12,15 +12,15 @@ $(function () {
 
 function rm(id){
 	$.ajax({
-        type: "post",
-        url: "/admessage/remove",
-        data: {messageId: id},
+        type: "get",
+        url: "/student/remove",
+        data: {stuId: id},
         success: function (data) {
         	if(data.code == 10000){
         		alert("删除成功");
         		$("button[name='refresh']").trigger('click');
         	}else{
-        		alert(data.info);
+        		alert("删除失败");
         	}
         },
         error: function () {
@@ -80,7 +80,7 @@ var TableInit = function () {
                 title: '班级',
                 width: 100
             }, {
-            	field: 'messageId',
+            	field: 'stuId',
             	title: '操作',
             	width: 100,
             	formatter:function(value,row,index){
@@ -88,11 +88,12 @@ var TableInit = function () {
             		//value：当前field的值，即id
             		//row：当前行的数据
             		// &nbsp;<a href="javascript:;" onclick="rm(\''+value+'\')"><span class="glyphicon glyphicon-edit"></span> 删除</a>
-            		var a = '<a class="button border-blue button-little" href="#">修改</a><a class="button border-yellow button-little" href="#">删除</a>';
+            		var a = '<a class="button border-blue button-little" href="/student/student_edit?stuId=' + value + '">修改</a>'
+            			+'<a class="button border-yellow button-little" href="javascript:;" onclick="rm(\''+value+'\')">删除</a>';
             		return a;
             	}
             },{
-            	field: 'messageId',
+            	field: 'stuId',
             	title: '功能',
             	width: 200,
             	formatter:function(value,row,index){
@@ -100,37 +101,11 @@ var TableInit = function () {
             		//value：当前field的值，即id
             		//row：当前行的数据
             		//<a class="button border-blue button-little" href="#">修改</a> <a class="button border-yellow button-little" href="#">删除</a>
-            		var a = '&nbsp;<a href="javascript:;" onclick="rm(\''+value+'\')"><span class="glyphicon glyphicon-edit"></span>添加成绩</a>'
-            			+ '&nbsp;<a href="javascript:;" onclick="rm(\''+value+'\')"><span class="glyphicon glyphicon-edit"></span>加扣分</a>';
+            		var a = '&nbsp;<a href="/grade/grade_add?stuId=' +value+ '"><span class="glyphicon glyphicon-edit"></span>添加成绩</a>'
+            			+ '&nbsp;<a href="/mark/mark_add?stuId=' +value+ '"><span class="glyphicon glyphicon-edit"></span>加/扣分</a>';
             		return a;
             	}
-            }],
-            onEditableSave: function (field, row, oldValue, $el) {
-            	//四个参数field, row, oldValue, $el分别对应着当前列的名称、当前行数据对象、更新前的值、编辑的当前单元格的jQuery对象。
-            	console.log(field);
-            	console.log(row);
-            	console.log(oldValue);
-            	console.log($el);
-                $.ajax({
-                    type: "post",
-                    url: "/admessage/update",
-                    data: {messageId: row.messageId, answer: row.answer},
-                    success: function (data) {
-                    	if(data.code == 10000){
-                    		alert("更新成功");
-                    	}else{
-                    		alert(data.info);
-                    	}
-                    },
-                    error: function () {
-                        alert("失败，网络异常");
-                    },
-                    complete: function () {
-
-                    }
-
-                });
-            }
+            }]
         });                             
     };   
                                        
