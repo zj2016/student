@@ -1,0 +1,41 @@
+#parse("/header.html")
+<link rel="stylesheet" href="//rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">
+<script src="//rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
+<script src="${rc.contextPath}/static/bt/bootstrap-table-editable.js"></script>	
+<script src="${rc.contextPath}/static/listjs/deatil.js"></script>
+<div class="admin">
+    <div class="panel admin-panel">
+    	<div class="panel-head"><strong>学生信息</strong></div>
+    	<input hidden type="text" id="stuId" value="$!student.stuId"/>
+        <table class="table table-hover">
+        	<tr><th width="45">$!student.stuId</th><th width="120">$!student.stuName</th><th width="100">$!student.majoy</th><th width="100">$!student.clazz班</th></tr>
+        </table>
+    </div>
+    <div class="panel admin-panel">
+    	<div class="panel-head"><strong>成绩列表</strong></div>
+        <table id="tb_grade"></table>
+    </div>
+    <div class="panel admin-panel">
+    	<div class="panel-head"><strong>加/扣分列表</strong></div>
+        <table id="tb_mark"></table>
+    </div>
+    <br />
+</div>
+<script>
+$(function () {
+
+    //1.初始化Table
+    var oTablemark = new TableInitmark("$!student.stuId");
+    oTablemark.Init();
+    
+    var oTable = new TableInit("$!student.stuId");
+    oTable.Init();
+
+    //2.初始化Button的点击事件
+    var oButtonInitmark = new ButtonInitmark();
+    oButtonInitmark.Init();
+
+});
+</script>
+</body>
+</html>

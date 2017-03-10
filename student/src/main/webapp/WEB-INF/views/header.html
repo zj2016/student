@@ -38,7 +38,7 @@ $('.nav')
     <div class="mainer">
         <div class="admin-navbar">
             <span class="float-right">
-            	<a class="button button-little bg-main" href="#" target="_blank">前台首页</a>
+            	<a class="button button-little bg-main" href="${rc.contextPath}/student/student_list" target="_blank">前台首页</a>
                 <a class="button button-little bg-yellow" href="${rc.contextPath}/admin/logout">注销登录</a>
             </span>
             <ul class="nav nav-inline admin-nav">
@@ -55,9 +55,9 @@ $('.nav')
             </ul>
         </div>
         <div class="admin-bread">
-            <span>您好，admin，欢迎您的光临。</span>
+            <span>您好，${_admin.name}，欢迎您的光临。</span>
             <ul class="bread">
-                <li><a href="index.html" class="icon-home"> 开始</a></li>
+                <li><a href="${rc.contextPath}/student/student_list" class="icon-home"> 开始</a></li>
                 <li>后台首页</li>
             </ul>
         </div>

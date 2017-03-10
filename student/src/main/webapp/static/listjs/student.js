@@ -51,7 +51,7 @@ var TableInit = function () {
             pageNumber:1,                       //初始化加载第一页，默认第一页
             pageSize: 6,                       //每页的记录行数（*）
             pageList: [6, 10, 15],        //可供选择的每页的行数（*）
-            search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+            search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
             strictSearch: true,
             showColumns: true,                  //是否显示所有的列
             showRefresh: true,                  //是否显示刷新按钮
@@ -59,7 +59,7 @@ var TableInit = function () {
             //clickToSelect: true,                //是否启用点击选中行
             //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
             uniqueId: "id",                     //每一行的唯一标识，一般为主键列
-            showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
+            showToggle:false,                    //是否显示详细视图和列表视图的切换按钮
             cardView: false,                    //是否显示详细视图
             detailView: false,                   //是否显示父子表
             classes: "table table-bordered",
@@ -88,8 +88,9 @@ var TableInit = function () {
             		//value：当前field的值，即id
             		//row：当前行的数据
             		// &nbsp;<a href="javascript:;" onclick="rm(\''+value+'\')"><span class="glyphicon glyphicon-edit"></span> 删除</a>
-            		var a = '<a class="button border-blue button-little" href="/student/student_edit?stuId=' + value + '">修改</a>'
-            			+'<a class="button border-yellow button-little" href="javascript:;" onclick="rm(\''+value+'\')">删除</a>';
+            		var a = '<a class="button border-green button-little" href="/student/student_detail?stuId=' + value + '">详情</a>'
+            			+'&nbsp;<a class="button border-blue button-little" href="/student/student_edit?stuId=' + value + '">修改</a>'
+            			+'&nbsp;<a class="button border-yellow button-little" href="javascript:;" onclick="rm(\''+value+'\')">删除</a>';
             		return a;
             	}
             },{
@@ -101,8 +102,8 @@ var TableInit = function () {
             		//value：当前field的值，即id
             		//row：当前行的数据
             		//<a class="button border-blue button-little" href="#">修改</a> <a class="button border-yellow button-little" href="#">删除</a>
-            		var a = '&nbsp;<a href="/grade/grade_add?stuId=' +value+ '"><span class="glyphicon glyphicon-edit"></span>添加成绩</a>'
-            			+ '&nbsp;<a href="/mark/mark_add?stuId=' +value+ '"><span class="glyphicon glyphicon-edit"></span>加/扣分</a>';
+            		var a = '&nbsp;<a href="/grade/grade_add?stuId=' +value+ '"><span class="glyphicon"></span>添加成绩</a>'
+            			+ '&nbsp;&nbsp;<a href="/mark/mark_add?stuId=' +value+ '"><span class="glyphicon"></span>加/扣分</a>';
             		return a;
             	}
             }]

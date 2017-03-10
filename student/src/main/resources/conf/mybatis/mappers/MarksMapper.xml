@@ -28,10 +28,10 @@
   </delete>
   
   <insert id="insert" parameterType="com.bs.student.bean.Marks">
-    insert into marks (id, deduct, cause, 
+    insert into marks (id, mark_id, deduct, cause, 
       stu_id)
-    values (#{id,jdbcType=INTEGER}, #{deduct,jdbcType=INTEGER}, #{cause,jdbcType=VARCHAR}, 
-      #{stuId,jdbcType=VARCHAR})
+    values (#{id,jdbcType=INTEGER}, #{markId,jdbcType=VARCHAR}, #{deduct,jdbcType=INTEGER}, 
+    #{cause,jdbcType=VARCHAR}, #{stuId,jdbcType=VARCHAR})
   </insert>
   
   <update id="update" parameterType="com.bs.student.bean.Marks">

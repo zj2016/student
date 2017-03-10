@@ -21,7 +21,7 @@ label{
         		<div class="form-group">
                     <div class="label"><label for="siteurl">加/扣分</label></div>
                     <div class="field">
-                    	<select name=""type style="margin-top: 8px;width: 60px;height: 25px;">
+                    	<select name="type" style="margin-top: 8px;width: 60px;height: 25px;">
                     		<option value="1">加分</option>
                     		<option value="-1">扣分</option>
                     	</select>
@@ -54,7 +54,7 @@ label{
 				function(data){
 					alert(data.info);
 					if(data.code == 10000){
-						location.href = "${rc.contextPath}/student/student_list";
+						location.href = "${rc.contextPath}/student/student_detail?stuId=$!{student.stuId}";
 					}
 				},
 				"json");

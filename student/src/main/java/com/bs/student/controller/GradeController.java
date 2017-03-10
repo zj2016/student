@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bs.student.bean.Grade;
+import com.bs.student.query.GradeQuery;
 import com.bs.student.query.Query;
 import com.bs.student.rest.Rest;
 import com.bs.student.rest.RestResult;
@@ -56,7 +57,7 @@ public class GradeController {
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
-	public String list(Query query) throws JsonProcessingException{
+	public String list(GradeQuery query) throws JsonProcessingException{
 		
 		Map<String, Object> params = query.toMap();
 		List<Grade> stuList = gradeService.getList(params);

@@ -61,7 +61,7 @@ label{
             success:function(data){ 
             	alert(data.info);
 				if(data.code == 10000){
-					location.href = "${rc.contextPath}/student/student_list";
+					location.href = "${rc.contextPath}/student/student_detail?stuId=$!{student.stuId}";
 				}                    
             } 
          });
