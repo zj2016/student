@@ -13,7 +13,7 @@ $(function () {
 function rm(id){
 	$.ajax({
         type: "get",
-        url: "/student/remove",
+        url: "/student/student/remove",
         data: {stuId: id},
         success: function (data) {
         	if(data.code == 10000){
@@ -38,7 +38,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_departments').bootstrapTable({
-            url: '/student/list',         //请求后台的URL（*）
+            url: '/student/student/list',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
             toolbar: '#toolbar',              //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
@@ -88,8 +88,8 @@ var TableInit = function () {
             		//value：当前field的值，即id
             		//row：当前行的数据
             		// &nbsp;<a href="javascript:;" onclick="rm(\''+value+'\')"><span class="glyphicon glyphicon-edit"></span> 删除</a>
-            		var a = '<a class="button border-green button-little" href="/student/student_detail?stuId=' + value + '">详情</a>'
-            			+'&nbsp;<a class="button border-blue button-little" href="/student/student_edit?stuId=' + value + '">修改</a>'
+            		var a = '<a class="button border-green button-little" href="/student/student/student_detail?stuId=' + value + '">详情</a>'
+            			+'&nbsp;<a class="button border-blue button-little" href="/student/student/student_edit?stuId=' + value + '">修改</a>'
             			+'&nbsp;<a class="button border-yellow button-little" href="javascript:;" onclick="rm(\''+value+'\')">删除</a>';
             		return a;
             	}
@@ -102,8 +102,8 @@ var TableInit = function () {
             		//value：当前field的值，即id
             		//row：当前行的数据
             		//<a class="button border-blue button-little" href="#">修改</a> <a class="button border-yellow button-little" href="#">删除</a>
-            		var a = '&nbsp;<a href="/grade/grade_add?stuId=' +value+ '"><span class="glyphicon"></span>添加成绩</a>'
-            			+ '&nbsp;&nbsp;<a href="/mark/mark_add?stuId=' +value+ '"><span class="glyphicon"></span>加/扣分</a>';
+            		var a = '&nbsp;<a href="/student/grade/grade_add?stuId=' +value+ '"><span class="glyphicon"></span>添加成绩</a>'
+            			+ '&nbsp;&nbsp;<a href="/student/mark/mark_add?stuId=' +value+ '"><span class="glyphicon"></span>加/扣分</a>';
             		return a;
             	}
             }]

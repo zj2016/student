@@ -13,7 +13,7 @@ $(function () {
 function rm(id){
 	$.ajax({
         type: "get",
-        url: "/course/remove",
+        url: "/student/course/remove",
         data: {couId: id},
         success: function (data) {
         	if(data.code == 10000){
@@ -38,7 +38,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_departments').bootstrapTable({
-            url: '/course/list',         //请求后台的URL（*）
+            url: '/student/course/list',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
             toolbar: '#toolbar',                //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
@@ -95,7 +95,7 @@ var TableInit = function () {
             	
             	$.ajax({
                     type: "post",
-                    url: "/course/edit",
+                    url: "/student/course/edit",
                     data: data,
                     success: function (data) {
                     	if(data.code == 10000){

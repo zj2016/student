@@ -30,8 +30,8 @@
           
         <!-- jdbc连接 -->  
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"  
-            connectionURL="jdbc:mysql://127.0.0.1:3306/student?characterEncoding=UTF-8" userId="root"  
-            password="123456" />  
+            connectionURL="jdbc:mysql://192.168.1.254:3306/renrenbx?characterEncoding=UTF-8" userId="root"  
+            password="renrenbx" />  
           
         <!-- 类型转换 -->  
         <javaTypeResolver>  
@@ -40,24 +40,24 @@
         </javaTypeResolver>  
           
         <!-- 生成实体类地址 -->    
-        <javaModelGenerator targetPackage="com.bs.student.bean"  
-            targetProject="H:/GIT/student/student/src/main/java" >  
-            <!-- 是否在当前路径下新加一层schema,eg：fase路径cn.ffcs.test.domain"， true:cn.ffcs.test.domain".[schemaName] -->  
+        <javaModelGenerator targetPackage="bean"  
+            targetProject="H:/GIT" >  
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径cn.ffcs.test.domain"， true:cn.ffcs.test.domain".[schemaName]   -->
             <property name="enableSubPackages" value="false"/>  
-            <!-- 是否针对string类型的字段在set的时候进行trim调用 -->  
+           <!--  是否针对string类型的字段在set的时候进行trim调用   -->
             <property name="trimStrings" value="true"/>  
-        </javaModelGenerator>  
+        </javaModelGenerator>
           
         <!-- 生成mapxml文件 -->  
-        <sqlMapGenerator targetPackage="conf/mybatis/mappers"  
-            targetProject="H:/GIT/student/student/src/main/resources" >  
+        <sqlMapGenerator targetPackage="conf"  
+            targetProject="H:/GIT" >  
             <!-- 是否在当前路径下新加一层schema,eg：fase路径cn.ffcs.test.domain"， true:cn.ffcs.test.domain".[schemaName] -->  
             <property name="enableSubPackages" value="false" />  
         </sqlMapGenerator>  
           
         <!-- 生成mapxml对应client，也就是接口dao -->      
-        <javaClientGenerator targetPackage="com.bs.student.dao"  
-            targetProject="H:/GIT/student/student/src/main/java" type="XMLMAPPER" >  
+        <javaClientGenerator targetPackage="com.renrenbx.business.persistence"  
+            targetProject="H:/GIT" type="XMLMAPPER" >  
             <!-- 是否在当前路径下新加一层schema,eg：fase路径cn.ffcs.test.domain"， true:cn.ffcs.test.domain".[schemaName] -->  
             <property name="enableSubPackages" value="false" />  
         </javaClientGenerator>  
@@ -82,23 +82,8 @@
             enableUpdateByExample="false">  
         </table>   -->
         
-        <table schema="student" tableName="student"  
-            domainObjectName="Student" enableCountByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false"  
-            enableUpdateByExample="false">  
-        </table> 
-        <table schema="student" tableName="course"  
-            domainObjectName="Course" enableCountByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false"  
-            enableUpdateByExample="false">  
-        </table> 
-        <table schema="student" tableName="grade"  
-            domainObjectName="Grade" enableCountByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false"  
-            enableUpdateByExample="false">  
-        </table> 
-        <table schema="student" tableName="marks"  
-            domainObjectName="Marks" enableCountByExample="false"  
+        <table schema="renrenbx" tableName="bi_order_pay"  
+            domainObjectName="OrderPay" enableCountByExample="false"  
             enableDeleteByExample="false" enableSelectByExample="false"  
             enableUpdateByExample="false">  
         </table> 

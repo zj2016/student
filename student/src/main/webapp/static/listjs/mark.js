@@ -13,7 +13,7 @@ $(function () {
 function rm(id){
 	$.ajax({
         type: "get",
-        url: "/mark/remove",
+        url: "/student/mark/remove",
         data: {markId: id},
         success: function (data) {
         	if(data.code == 10000){
@@ -38,7 +38,7 @@ var TableInitmark = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_mark').bootstrapTable({
-            url: '/mark/list',         //请求后台的URL（*）
+            url: '/student/mark/list',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
             toolbar: '#toolbar',                //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
@@ -120,7 +120,7 @@ var TableInitmark = function () {
             	
             	$.ajax({
                     type: "post",
-                    url: "/mark/edit",
+                    url: "/student/mark/edit",
                     data: data,
                     success: function (data) {
                     	if(data.code == 10000){
