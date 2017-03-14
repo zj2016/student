@@ -19,7 +19,7 @@ public class AuthorInterceptor extends HandlerInterceptorAdapter {
 			return true;
 		}
 		
-		response.sendRedirect("/index");
+		response.sendRedirect("/student/index");
 		return false;
 	}
 	

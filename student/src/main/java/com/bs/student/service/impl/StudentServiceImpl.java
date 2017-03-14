@@ -48,4 +48,12 @@ public class StudentServiceImpl implements StudentService{
 		return studentMapper.selectScoreDeductCount(params);
 	}
 
+	public List<Student> getLZ() {
+		return studentMapper.selectLZ();
+	}
+
+	public List<String> getClassList() {
+		return studentMapper.selectClass();
+	}
+
 }

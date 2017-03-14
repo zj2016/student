@@ -11,4 +11,10 @@ public interface StudentMapper extends BaseMapper<Student>{
 	List<Student> selectScoreDeduct(Map<String, Object> params);
 	
 	int selectScoreDeductCount(Map<String, Object> params);
+	
+	//生成励志奖学金列表
+	List<Student> selectLZ();
+	
+	//获得班级列表
+	List<String> selectClass();
 }

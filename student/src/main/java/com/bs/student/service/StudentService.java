@@ -14,4 +14,9 @@ public interface StudentService extends BaseService<Student>{
 	List<Student> getScoreDeduct(Map<String, Object> params);
 	
 	int getScoreDeductCount(Map<String, Object> params);
+	
+	//生成励志奖学金列表
+	List<Student> getLZ();
+	
+	List<String> getClassList();
 }

@@ -3,6 +3,7 @@ package com.bs.student.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,21 +28,32 @@ public class BurseController {
 	
 	@RequestMapping(value = "/{page}", method = RequestMethod.GET)
 	public String page(@PathVariable("page") String page, ModelMap modelMap){
-		
+		modelMap.addAttribute("classList", studentService.getClassList());
 		modelMap.addAttribute("page", "burse");
 		return page;
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
-	public String list(Query query) throws JsonProcessingException{
+	public String list(Query query, String clazz) throws JsonProcessingException{
 		
 		Map<String, Object> params = query.toMap();
+		params.put("clazz",clazz);
 		params.put("sort", "sum_score");
 		List<Student> stuList = studentService.getScoreDeduct(params);
 		int count = studentService.getScoreDeductCount(params);
 		
 		Rest<Student> rest = new Rest<Student>(count, stuList);
+		return rest.toJson();
+	}
+	
+	
+	@RequestMapping(value = "/listLZ",method = RequestMethod.GET)
+	@ResponseBody
+	public String listLZ() throws JsonProcessingException{
+		
+		List<Student> stuList = studentService.getLZ();
+		Rest<Student> rest = new Rest<Student>(stuList.size(), stuList);
 		return rest.toJson();
 	}
 	

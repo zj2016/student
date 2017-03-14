@@ -3,10 +3,47 @@
 <div class="admin">
     <div class="panel admin-panel">
     	<div class="panel-head"><strong>奖学金列表</strong></div>
+    	<table id="tb_lizhi"></table>
+    	
+    	<hr>
+    	<div class="field" style="margin-top: 100px">
+    			<label>班级</label>
+             	<select id="class" name="class" style="margin-top: 8px;width: 60px;height: 25px;">
+             		#foreach($clazz in $!classList)
+             		<option value="$!clazz">$!clazz</option>
+             		#end
+             	</select>
+        </div>
         <table id="tb_departments"></table>
     </div>
     <br />
 </div>
+<script>
+$(function () {
 
+    //1.初始化Table
+    $(".search input").val("$!classList.get(0)");
+    var oTable = new TableInit();
+    oTable.Init();
+    
+    var oTableJX = new TableInitJX();
+    oTableJX.Init();
+
+    //2.初始化Button的点击事件
+    var oButtonInit = new ButtonInit();
+    oButtonInit.Init();
+    
+    $("#class").change(function(){  
+    	//oTable = new TableInit($(this).val());
+    	//oTable();
+    	/* var params = oTable.queryParams();
+    	params.clazz = $(this).val();
+    	oTable.queryParams(params);
+        oTable.Init(); */
+        $("button[name='refresh']").trigger('click');
+    });
+
+});
+</script>
 </body>
 </html>
