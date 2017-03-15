@@ -22,8 +22,7 @@
 $(function () {
 
     //1.初始化Table
-    $(".search input").val("$!classList.get(0)");
-    var oTable = new TableInit();
+    var oTable = new TableInit("$!classList.get(0)");
     oTable.Init();
     
     var oTableJX = new TableInitJX();
@@ -34,13 +33,7 @@ $(function () {
     oButtonInit.Init();
     
     $("#class").change(function(){  
-    	//oTable = new TableInit($(this).val());
-    	//oTable();
-    	/* var params = oTable.queryParams();
-    	params.clazz = $(this).val();
-    	oTable.queryParams(params);
-        oTable.Init(); */
-        $("button[name='refresh']").trigger('click');
+    	$('#tb_departments').bootstrapTable('refresh', {query: {clazz: $(this).val()}});
     });
 
 });

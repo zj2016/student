@@ -3,6 +3,8 @@ package com.bs.student.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bs.student.bean.Admin;
 import com.bs.student.bean.Student;
 import com.bs.student.query.Query;
 import com.bs.student.rest.Rest;
@@ -35,6 +38,15 @@ public class StudentController {
 		return page;
 	}
 	
+	@RequestMapping(value = "/reset", method = RequestMethod.GET)
+	public String reset(String stuId, ModelMap modelMap){
+		if(StringUtils.isNotBlank(stuId)){
+			modelMap.addAttribute("student", studentService.get(stuId));
+		}
+		modelMap.addAttribute("page", "reset");
+		return "student_reset";
+	}
+	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
 	public String list(Query query) throws JsonProcessingException{
@@ -47,7 +59,7 @@ public class StudentController {
 		return rest.toJson();
 	}
 	
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	@RequestMapping(value = {"/edit/ad","/edit"}, method = RequestMethod.POST)
 	@ResponseBody
 	public RestResult edit(Student student, ModelMap modelMap){
 		
@@ -68,7 +80,7 @@ public class StudentController {
 		return RestResult.error("失败");
 	}
 	
-	@RequestMapping(value = "/remove", method = RequestMethod.GET)
+	@RequestMapping(value = "/remove/ad", method = RequestMethod.GET)
 	@ResponseBody
 	public RestResult remove(String stuId, ModelMap map){
 		int result = studentService.remove(stuId);
@@ -76,5 +88,28 @@ public class StudentController {
 			return RestResult.success();
 		}
 		return RestResult.error("失败");
+	}
+	
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@ResponseBody
+	public RestResult login(Query query, String name, String password, HttpServletRequest request){
+		
+		Map<String, Object> params = query.toMap();
+		params.put("stuId", name);
+		params.put("password", password);
+		List<Student> list = studentService.getList(params);
+		if(list.size() <= 0){
+			return RestResult.error("用户名密码不匹配");
+		}
+		request.getSession().setAttribute("_student", list.get(0));
+		
+		return RestResult.success();
+	}
+	
+	@RequestMapping("/logout")
+	public String logout(HttpServletRequest request){
+		request.getSession().removeAttribute("_student");
+		return "redirect:/index";
 	}
 }

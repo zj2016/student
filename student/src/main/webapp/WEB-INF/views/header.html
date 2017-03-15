@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="renderer" content="webkit">
-    <title>拼图后台管理-后台管理</title>
+    <title>学生工作-后台管理</title>
     <link rel="stylesheet" href="${rc.contextPath}/static/css/pintuer.css">
     <link rel="stylesheet" href="${rc.contextPath}/static/css/admin.css">
     
@@ -38,8 +38,8 @@ $('.nav')
     <div class="mainer">
         <div class="admin-navbar">
             <span class="float-right">
-            	<a class="button button-little bg-main" href="${rc.contextPath}/student/student_list" target="_blank">前台首页</a>
-                <a class="button button-little bg-yellow" href="${rc.contextPath}/admin/logout">注销登录</a>
+            	<!-- <a class="button button-little bg-main" href="javascript:;" target="_blank">前台首页</a> -->
+                <a class="button button-little bg-yellow" #if($_admin) href="${rc.contextPath}/admin/logout" #else href="${rc.contextPath}/student/logout" #end>注销登录</a>
             </span>
             <ul class="nav nav-inline admin-nav">
                 <li class="active"><!-- <a href="index.html" class="icon-home"> 开始</a> -->
@@ -50,12 +50,20 @@ $('.nav')
                     <li #if("$!page" == "mark") class="active" #end><a href="${rc.contextPath}/mark/mark_list">加/扣分管理</a></li>
                     <li #if("$!page" == "burse") class="active" #end><a href="${rc.contextPath}/burse/burse_list">奖学金</a></li>
                     <li #if("$!page" == "grants") class="active" #end><a href="${rc.contextPath}/grants/grants_list">助学金</a></li>
+                    #if($_student)
+                    <li #if("$!page" == "reset") class="active" #end><a href="${rc.contextPath}/student/reset?stuId=$!_student.stuId">重置密码</a></li>
+                    #end
                     </ul>
                 </li>
             </ul>
         </div>
         <div class="admin-bread">
+        	#if($_admin)
             <span>您好，${_admin.name}，欢迎您的光临。</span>
+            #end
+        	#if($_student)
+            <span>您好，${_student.stuName}，欢迎您的光临。</span>
+            #end
             <ul class="bread">
                 <li><a href="${rc.contextPath}/student/student_list" class="icon-home"> 开始</a></li>
                 <li>后台首页</li>

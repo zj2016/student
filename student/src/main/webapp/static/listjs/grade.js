@@ -72,14 +72,18 @@ var TableInit = function () {
             	//四个参数field, row, oldValue, $el分别对应着当前列的名称、当前行数据对象、更新前的值、编辑的当前单元格的jQuery对象。
             	$.ajax({
                     type: "post",
-                    url: "/student/grade/update",
+                    url: "/student/grade/update/ad",
                     data: {gradeId: row.gradeId, score: row.score},
                     success: function (data) {
+                    	if(data.code != null){
                     	if(data.code == 10000){
                     		alert("更新成功");
                     	}else{
                     		alert(data.info);
                     	}
+                    }else{
+                		alert(data);
+                	}
                     },
                     error: function () {
                         alert("失败，网络异常");

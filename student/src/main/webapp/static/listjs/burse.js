@@ -17,7 +17,7 @@ var TableInit = function (clazz) {
             pageNumber:1,                       //初始化加载第一页，默认第一页
             pageSize: 6,                       //每页的记录行数（*）
             pageList: [6, 10, 15],        //可供选择的每页的行数（*）
-            search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+            search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
             strictSearch: true,
             showColumns: true,                  //是否显示所有的列
             showRefresh: true,                  //是否显示刷新按钮
@@ -88,7 +88,7 @@ var TableInit = function (clazz) {
             offset: params.offset,  //页码
             departmentname: $("#txt_search_departmentname").val(),
             statu: $("#txt_search_statu").val(),
-            clazz: params.search
+            clazz: clazz
         };
         return temp;
     };
@@ -125,23 +125,6 @@ var TableInitJX = function () {
             cardView: false,                    //是否显示详细视图
             detailView: false,                   //是否显示父子表
             classes: "table table-bordered",
-            rowStyle: function (row, index) {
-                //这里有5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
-                var strclass = "";
-                if (index == 0) {
-                    strclass = 'success';//还有一个active
-                }
-                else if (index >= 1 && index <= 3) {
-                    strclass = 'info';
-                }
-                else if (index > 3 && index <= 9) {
-                	strclass = 'warning';
-                }
-                else {
-                	return {};
-                }
-                return { classes: strclass }
-            },
             columns: [ {
                 field: 'stuId',
                 title: '学号',

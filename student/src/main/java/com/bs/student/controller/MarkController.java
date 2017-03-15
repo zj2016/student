@@ -51,7 +51,7 @@ public class MarkController {
 		return rest.toJson();
 	}
 	
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	@RequestMapping(value = "/edit/ad", method = RequestMethod.POST)
 	@ResponseBody
 	public RestResult edit(Marks mark, ModelMap modelMap){
 		
@@ -68,7 +68,7 @@ public class MarkController {
 		return RestResult.error("失败");
 	}
 	
-	@RequestMapping(value = "/remove", method = RequestMethod.GET)
+	@RequestMapping(value = "/remove/ad", method = RequestMethod.GET)
 	@ResponseBody
 	public RestResult remove(String markId, ModelMap map){
 		int result = markService.remove(markId);
@@ -78,7 +78,7 @@ public class MarkController {
 		return RestResult.error("失败");
 	}
 	
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/add/ad", method = RequestMethod.POST)
 	@ResponseBody
 	public RestResult add(Marks mark, int type){
 		mark.setDeduct(mark.getDeduct() * type);

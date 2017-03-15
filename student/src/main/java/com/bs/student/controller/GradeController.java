@@ -67,7 +67,7 @@ public class GradeController {
 		return rest.toJson();
 	}
 	
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/update/ad", method = RequestMethod.POST)
 	@ResponseBody
 	public RestResult edit(Grade grade, ModelMap modelMap){
 		
@@ -79,7 +79,7 @@ public class GradeController {
 		return RestResult.error("失败");
 	}
 	
-	@RequestMapping(value = "/batch", method = RequestMethod.POST)
+	@RequestMapping(value = "/batch/ad", method = RequestMethod.POST)
 	@ResponseBody
 	public RestResult batchAdd(@RequestBody String json) throws JsonProcessingException, IOException{
 		

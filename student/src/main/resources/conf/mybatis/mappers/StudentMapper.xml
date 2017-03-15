@@ -10,10 +10,11 @@
     <result column="sum_score" jdbcType="INTEGER" property="sumScore" />
     <result column="sum_deduct" jdbcType="INTEGER" property="numDeduct" />
     <result column="sum_sd" jdbcType="FLOAT" property="sumSd" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    id, stu_id, stu_name, majoy, class
+    id, stu_id, stu_name, majoy, class, password
   </sql>
   
   <select id="select" parameterType="String" resultMap="BaseResultMap">
@@ -30,9 +31,9 @@
   
   <insert id="insert" parameterType="com.bs.student.bean.Student">
     insert into student (id, stu_id, stu_name, 
-      majoy, class)
+      majoy, class, password)
     values (#{id,jdbcType=INTEGER}, #{stuId,jdbcType=VARCHAR}, #{stuName,jdbcType=VARCHAR}, 
-      #{majoy,jdbcType=VARCHAR}, #{clazz,jdbcType=VARCHAR})
+      #{majoy,jdbcType=VARCHAR}, #{clazz,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
   </insert>
   
   <update id="update" parameterType="com.bs.student.bean.Student">
@@ -46,6 +47,9 @@
       </if>
       <if test="clazz != null">
         class = #{clazz,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
       </if>
     </set>
     where stu_id = #{stuId,jdbcType=VARCHAR}
@@ -67,6 +71,9 @@
       	</if>
       	<if test="clazz != null">
         	and INSTR(class, #{clazz,jdbcType=VARCHAR})
+      	</if>
+      	<if test="password != null">
+        	and password = #{password,jdbcType=VARCHAR}
       	</if>
     </where>
     order by class asc, stu_id asc, stu_name asc
@@ -106,7 +113,14 @@
 	ON s.`stu_id` = g.stu_id
 	LEFT JOIN (SELECT stu_id, IFNULL(SUM(deduct),0) AS sum_deduct FROM marks GROUP BY stu_id) m
 	ON s.`stu_id` = m.stu_id
-	WHERE s.stu_id NOT IN (SELECT stu_id FROM grade WHERE score &lt; 60) AND s.stu_id IN (SELECT stu_id FROM grade) AND s.class = #{clazz}
+	WHERE s.stu_id NOT IN (SELECT stu_id FROM grade WHERE score &lt; 60) AND s.stu_id IN (SELECT stu_id FROM grade) AND s.class = #{clazz} and
+	s.stu_id NOT IN 
+	(SELECT l.stu_id FROM (SELECT s.stu_id
+	FROM student s LEFT JOIN (SELECT stu_id, IFNULL(SUM(score),0) AS sum_score FROM grade GROUP BY stu_id) g
+	ON s.`stu_id` = g.stu_id
+	WHERE s.stu_id NOT IN (SELECT stu_id FROM grade WHERE score &lt; 60) AND s.stu_id IN (SELECT stu_id FROM grade)
+	ORDER BY sum_score DESC
+	LIMIT 0, 2) AS l)
 	ORDER BY ${sort} DESC
 	limit #{offset}, #{limit}
   </select>
@@ -118,6 +132,13 @@
 	LEFT JOIN (SELECT stu_id, IFNULL(SUM(deduct),0) AS sum_deduct FROM marks GROUP BY stu_id) m
 	ON s.`stu_id` = m.stu_id
 	WHERE s.stu_id NOT IN (SELECT stu_id FROM grade WHERE score &lt; 60) AND s.stu_id IN (SELECT stu_id FROM grade) AND s.class = #{clazz}
+	and s.stu_id NOT IN 
+	(SELECT l.stu_id FROM (SELECT s.stu_id
+	FROM student s LEFT JOIN (SELECT stu_id, IFNULL(SUM(score),0) AS sum_score FROM grade GROUP BY stu_id) g
+	ON s.`stu_id` = g.stu_id
+	WHERE s.stu_id NOT IN (SELECT stu_id FROM grade WHERE score &lt; 60) AND s.stu_id IN (SELECT stu_id FROM grade)
+	ORDER BY sum_score DESC
+	LIMIT 0, 2) AS l)
   </select>
   
   <select id="selectLZ" resultMap="BaseResultMap">

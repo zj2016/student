@@ -51,7 +51,7 @@ label{
 		var gJson = JSON.stringify(data);
 		console.log(gJson);
 		
-		var url = "/student/grade/batch";
+		var url = "/student/grade/batch/ad";
 		jQuery.ajax({ 
             type:"POST", 
             url:url, 
@@ -59,10 +59,14 @@ label{
             contentType:"application/json",               
             data:gJson, 
             success:function(data){ 
+            	if(data.code != null){
             	alert(data.info);
 				if(data.code == 10000){
 					location.href = "${rc.contextPath}/student/student_detail?stuId=$!{student.stuId}";
-				}                    
+				}  
+            }else{
+        		alert(data);
+        	}
             } 
          });
 	}

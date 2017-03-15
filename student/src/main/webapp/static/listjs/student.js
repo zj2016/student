@@ -13,15 +13,19 @@ $(function () {
 function rm(id){
 	$.ajax({
         type: "get",
-        url: "/student/student/remove",
+        url: "/student/student/remove/ad",
         data: {stuId: id},
         success: function (data) {
+        	if(data.code != null){
         	if(data.code == 10000){
         		alert("删除成功");
         		$("button[name='refresh']").trigger('click');
         	}else{
         		alert("删除失败");
         	}
+        }else{
+    		alert(data);
+    	}
         },
         error: function () {
             alert("失败，网络异常");

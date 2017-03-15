@@ -13,14 +13,18 @@ $(function () {
 function rm(id){
 	$.ajax({
         type: "get",
-        url: "/student/course/remove",
+        url: "/student/course/remove/ad",
         data: {couId: id},
         success: function (data) {
-        	if(data.code == 10000){
-        		alert("删除成功");
-        		$("button[name='refresh']").trigger('click');
+        	if(data.code != null){
+	        	if(data.code == 10000){
+	        		alert("删除成功");
+	        		$("button[name='refresh']").trigger('click');
+	        	}else{
+	        		alert("删除失败");
+	        	}
         	}else{
-        		alert("删除失败");
+        		alert(data);
         	}
         },
         error: function () {
@@ -95,13 +99,17 @@ var TableInit = function () {
             	
             	$.ajax({
                     type: "post",
-                    url: "/student/course/edit",
+                    url: "/student/course/edit/ad",
                     data: data,
                     success: function (data) {
+                    	if(data.code != null){
                     	if(data.code == 10000){
                     		alert("更新成功");
                     	}else{
                     		alert(data.info);
+                    	}
+                    	}else{
+                    		alert(data);
                     	}
                     },
                     error: function () {

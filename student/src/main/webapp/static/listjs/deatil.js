@@ -2,15 +2,20 @@
 function rm(id){
 	$.ajax({
         type: "get",
-        url: "/student/mark/remove",
+        url: "/student/mark/remove/ad",
         data: {markId: id},
         success: function (data) {
+        	if(data.code != null){
         	if(data.code == 10000){
         		alert("删除成功");
         		$("button[name='refresh']").trigger('click');
         	}else{
         		alert(data.info);
         	}
+        }else{
+    		alert(data);
+    	}
+        	
         },
         error: function () {
             alert("失败，网络异常");
@@ -109,13 +114,17 @@ var TableInitmark = function (stuId) {
             	
             	$.ajax({
                     type: "post",
-                    url: "/student/mark/edit",
+                    url: "/student/mark/edit/ad",
                     data: data,
                     success: function (data) {
+                    	if(data.code != null){
                     	if(data.code == 10000){
                     		alert("更新成功");
                     	}else{
                     		alert(data.info);
+                    	}
+                    	}else{
+                    		alert(data);
                     	}
                     },
                     error: function () {
@@ -207,7 +216,7 @@ var TableInit = function (stuId) {
             	//四个参数field, row, oldValue, $el分别对应着当前列的名称、当前行数据对象、更新前的值、编辑的当前单元格的jQuery对象。
             	$.ajax({
                     type: "post",
-                    url: "/student/grade/update",
+                    url: "/student/grade/update/ad",
                     data: {gradeId: row.gradeId, score: row.score},
                     success: function (data) {
                     	if(data.code == 10000){

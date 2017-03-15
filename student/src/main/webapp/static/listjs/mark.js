@@ -13,14 +13,18 @@ $(function () {
 function rm(id){
 	$.ajax({
         type: "get",
-        url: "/student/mark/remove",
+        url: "/student/mark/remove/ad",
         data: {markId: id},
         success: function (data) {
+        	if(data.code != null){
         	if(data.code == 10000){
         		alert("删除成功");
         		$("button[name='refresh']").trigger('click');
         	}else{
         		alert(data.info);
+        	}
+        	}else{
+        		alert(data);
         	}
         },
         error: function () {
@@ -120,14 +124,18 @@ var TableInitmark = function () {
             	
             	$.ajax({
                     type: "post",
-                    url: "/student/mark/edit",
+                    url: "/student/mark/edit/ad",
                     data: data,
                     success: function (data) {
+                    	if(data.code != null){
                     	if(data.code == 10000){
                     		alert("更新成功");
                     	}else{
                     		alert(data.info);
                     	}
+                    }else{
+                		alert(data);
+                	}
                     },
                     error: function () {
                         alert("失败，网络异常");

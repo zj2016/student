@@ -48,14 +48,18 @@ label{
 <script>
 	function sub(){
 		
-		var url = "/student/mark/add";
+		var url = "/student/mark/add/ad";
 		jQuery.post(url,
 				$('#edit').serialize(),
 				function(data){
+			if(data.code != null){
 					alert(data.info);
 					if(data.code == 10000){
 						location.href = "${rc.contextPath}/student/student_detail?stuId=$!{student.stuId}";
 					}
+			}else{
+        		alert(data);
+        	}
 				},
 				"json");
 	}

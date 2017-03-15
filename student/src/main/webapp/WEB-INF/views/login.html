@@ -41,6 +41,12 @@
                             <span class="icon icon-key"></span>
                         </div>
                     </div>
+                    <div class="form-group" style="float: right;">
+                        <div class="field field-icon-right" >
+		                <input type="radio" name="type" value="admin" checked="checked"><label class="control-label">管理员</label> 
+						<input type="radio" name="type" value="student"><label class="control-label">学生</label>
+						</div>
+                	</div>
                 </div>
                 <div class="panel-foot text-center">
                 <button type="button" class="button button-block bg-main text-big" onclick="login()">立即登录后台</button>
@@ -51,6 +57,15 @@
     </div>
 </div>
 <script type="text/javascript">
+
+	var url = "${rc.contextPath}/admin/login";
+	$(':radio').click(function(){
+		var v = $(this).val();
+		if(v == "student"){
+			url = "${rc.contextPath}/student/login";
+		}
+	});
+
 	function login(){
 		
 		var name = $('#name').val();
@@ -64,7 +79,7 @@
 			return ;
 		}
 		
-		var url = "${rc.contextPath}/admin/login";
+		//var url = "${rc.contextPath}/admin/login";
 		jQuery.post(url,
 				{name: name, password: password},
 				function(data){

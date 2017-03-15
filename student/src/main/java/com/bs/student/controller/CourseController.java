@@ -48,7 +48,7 @@ public class CourseController {
 		return rest.toJson();
 	}
 	
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	@RequestMapping(value = "/edit/ad", method = RequestMethod.POST)
 	@ResponseBody
 	public RestResult edit(Course course, ModelMap modelMap){
 		
@@ -65,7 +65,7 @@ public class CourseController {
 		return RestResult.error("失败");
 	}
 	
-	@RequestMapping(value = "/remove", method = RequestMethod.GET)
+	@RequestMapping(value = "/remove/ad", method = RequestMethod.GET)
 	@ResponseBody
 	public RestResult remove(String couId, ModelMap map){
 		int result = courseService.remove(couId);

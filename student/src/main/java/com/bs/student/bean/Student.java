@@ -16,6 +16,8 @@ public class Student {
     private Integer numDeduct;
     
     private Float sumSd;
+    
+    private String password;
 
     public Integer getId() {
         return id;
@@ -81,6 +83,14 @@ public class Student {
 		this.sumSd = sumSd;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 	
     
 }

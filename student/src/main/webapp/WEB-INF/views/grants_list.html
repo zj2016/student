@@ -3,10 +3,36 @@
 <div class="admin">
     <div class="panel admin-panel">
     	<div class="panel-head"><strong>助学金列表</strong></div>
+    	<hr>
+    	<div class="field">
+    			<label>班级</label>
+             	<select id="class" name="class" style="margin-top: 8px;width: 60px;height: 25px;">
+             		#foreach($clazz in $!classList)
+             		<option value="$!clazz">$!clazz</option>
+             		#end
+             	</select>
+        </div>
         <table id="tb_departments"></table>
     </div>
     <br />
 </div>
+<script>
+$(function () {
 
+
+    //1.初始化Table
+    var oTable = new TableInit("$!classList.get(0)");
+    oTable.Init();
+
+    //2.初始化Button的点击事件
+    var oButtonInit = new ButtonInit();
+    oButtonInit.Init();
+
+    $("#class").change(function(){  
+    	$('#tb_departments').bootstrapTable('refresh', {query: {clazz: $(this).val()}});
+    });
+
+});
+</script>
 </body>
 </html>

@@ -27,16 +27,17 @@ public class GrantsController {
 	
 	@RequestMapping(value = "/{page}", method = RequestMethod.GET)
 	public String page(@PathVariable("page") String page, ModelMap modelMap){
-		
+		modelMap.addAttribute("classList", studentService.getClassList());
 		modelMap.addAttribute("page", "grants");
 		return page;
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
-	public String list(Query query) throws JsonProcessingException{
+	public String list(Query query, String clazz) throws JsonProcessingException{
 		
 		Map<String, Object> params = query.toMap();
+		params.put("clazz",clazz);
 		params.put("sort", "sum_sd");
 		List<Student> stuList = studentService.getScoreDeduct(params);
 		int count = studentService.getScoreDeductCount(params);

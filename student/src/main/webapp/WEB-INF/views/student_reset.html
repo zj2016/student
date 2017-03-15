@@ -1,0 +1,54 @@
+#parse("/header.html")
+<style>
+label{
+	color: rebeccapurple;
+	font-size: initial;
+	margin-right: 10px;
+}
+</style>
+<div class="admin">
+    <div class="tab">
+    <strong>重置密码</strong>
+      <div class="tab-body">
+        <br />
+        <div class="tab-panel active" id="tab-set">
+        	<form id="edit" method="post" class="form-x">
+        		<input hidden type="text" class="input" id="id" name="id" value="$!student.id"/>
+        		<div class="form-group">
+                    <div class="label"><label for="siteurl">学号</label></div>
+                    <div class="field">
+                    	<input readOnly type="text" class="input" id="stuId" name="stuId" size="50" value="$!student.stuId"/>
+                    </div>
+                </div>
+        		<div class="form-group">
+                    <div class="label"><label for="siteurl">密码</label></div>
+                    <div class="field">
+                    	<input type="text" class="input" id="password" name="password" size="50" placeholder="请填写新密码（8-16位）" value="$!student.password"/>
+                    </div>
+                </div>
+                <div class="form-button"><button class="button bg-main" type="button" onclick="sub()">提交</button></div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+<script>
+	function sub(){
+		var url = "/student/student/edit";
+		jQuery.post(url,
+				$('#edit').serialize(),
+				function(data){
+					//if(data.code != null){
+						alert(data.info);
+						if(data.code == 10000){
+							location.href = "${rc.contextPath}/student/student_list";
+						}
+					/* }else{
+            			alert(data);
+            		} */
+				},
+				"json");
+	}
+</script>
+</body>
+</html>
