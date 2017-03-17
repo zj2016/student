@@ -49,9 +49,10 @@ public class StudentController {
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
-	public String list(Query query) throws JsonProcessingException{
+	public String list(Query query, String stuId) throws JsonProcessingException{
 		
 		Map<String, Object> params = query.toMap();
+		params.put("stuId", stuId);
 		List<Student> stuList = studentService.getList(params);
 		int count = studentService.getCount(params);
 		

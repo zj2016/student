@@ -28,7 +28,8 @@ var TableInit = function () {
             pageNumber:1,                       //初始化加载第一页，默认第一页
             pageSize: 6,                       //每页的记录行数（*）
             pageList: [6, 10, 15],        //可供选择的每页的行数（*）
-            search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+            search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+            searchOnEnterKey: true,
             strictSearch: true,
             showColumns: true,                  //是否显示所有的列
             showRefresh: true,                  //是否显示刷新按钮
@@ -104,8 +105,7 @@ var TableInit = function () {
             offset: params.offset,  //页码
             departmentname: $("#txt_search_departmentname").val(),
             statu: $("#txt_search_statu").val(),
-            stuId: $("#sutId").val(),
-            search:params.search
+            stuId: params.search
         };
         return temp;
     };
