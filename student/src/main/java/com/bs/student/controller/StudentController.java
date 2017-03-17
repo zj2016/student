@@ -52,7 +52,7 @@ public class StudentController {
 	public String list(Query query, String stuId) throws JsonProcessingException{
 		
 		Map<String, Object> params = query.toMap();
-		params.put("stuId", stuId);
+		params.put("stuId", StringUtils.isBlank(stuId) ? null : stuId);
 		List<Student> stuList = studentService.getList(params);
 		int count = studentService.getCount(params);
 		
